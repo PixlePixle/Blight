@@ -67,14 +67,14 @@ public class PlayerScript : MonoBehaviour
         else // Start a timer for dash
         {
             rb.velocity = Vector3.Normalize(new Vector3(Mathf.Abs(currentMovement.x) > 0f ? Mathf.Sign(currentMovement.x): 0f, 0f, Mathf.Abs(currentMovement.y) > 0f ? Mathf.Sign(currentMovement.y) : 0f)) * dash;
-            timer -= Time.fixedDeltaTime;
-            if(timer < 0f)
+            timer -= Time.fixedDeltaTime; // Decreases the timer
+            if(timer < 0f) // Once the timer hits 0, the dash is over and the dash goes on cooldown
             {
                 dashing = false;
                 dashCooldownTimer = dashCooldown;
             }
         }
-        if (dashCooldownTimer > 0f)
+        if (dashCooldownTimer > 0f) // Decreases the dash cooldown
             dashCooldownTimer -= Time.fixedDeltaTime;
     }
 
@@ -84,7 +84,7 @@ public class PlayerScript : MonoBehaviour
         // Gets the current pressed keys and stores it
         move = controls.Movement.WASD.ReadValue<Vector2>();
 
-
+        //Some unworking mouse code
         Vector3 mousePos = Mouse.current.position.ReadValue();
         mousePos.z = 10f;
         Vector3 Worldpos = Camera.main.ScreenToWorldPoint(mousePos);
