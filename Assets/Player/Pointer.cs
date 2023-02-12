@@ -7,11 +7,13 @@ public class Pointer : MonoBehaviour
 {
     private Vector3 camOffset;
     Controls controls;
+    Plane plane;
     private void OnEnable()
     {
         controls = new Controls();
         controls.Enable();
         getCameraTransform();
+        plane = new Plane(Vector3.down, transform.position.y);
     }
 
     private void OnDisable()
@@ -27,11 +29,16 @@ public class Pointer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Some unworking mouse code
+
+        // Makes player always follow the mouse
         Vector3 mousePos = controls.Movement.Mouse.ReadValue<Vector2>();
-        mousePos.z = Mathf.Sqrt(Mathf.Pow(camOffset.y, 2) + Mathf.Pow(camOffset.z , 2));
-        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        if(plane.Raycast(ray, out float distance))
+        {
+            mousePos = ray.GetPoint(distance);
+        }
         transform.LookAt(new Vector3(mousePos.x, transform.position.y, mousePos.z));
-        Debug.Log(transform.position);
     }
+
+    
 }
