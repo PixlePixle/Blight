@@ -29,6 +29,7 @@ public class PlayerScript : MonoBehaviour
         controls = new Controls();
         rb = GetComponent<Rigidbody>();
     }
+    
 
     private void OnEnable()
     {
@@ -84,11 +85,7 @@ public class PlayerScript : MonoBehaviour
         // Gets the current pressed keys and stores it
         move = controls.Movement.WASD.ReadValue<Vector2>();
 
-        //Some unworking mouse code
-        Vector3 mousePos = Mouse.current.position.ReadValue();
-        mousePos.z = 10f;
-        Vector3 Worldpos = Camera.main.ScreenToWorldPoint(mousePos);
-        Debug.Log(Worldpos);
+        
 
     }
 }
