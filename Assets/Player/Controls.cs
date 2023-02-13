@@ -53,6 +53,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""716e91ac-9866-45f9-86b7-542454481767"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7fc1f752-8ea1-4bd7-b51a-b57f862f3e7b"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -160,6 +180,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Movement_WASD = m_Movement.FindAction("WASD", throwIfNotFound: true);
         m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
         m_Movement_Mouse = m_Movement.FindAction("Mouse", throwIfNotFound: true);
+        m_Movement_Shoot = m_Movement.FindAction("Shoot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -222,6 +243,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_WASD;
     private readonly InputAction m_Movement_Dash;
     private readonly InputAction m_Movement_Mouse;
+    private readonly InputAction m_Movement_Shoot;
     public struct MovementActions
     {
         private @Controls m_Wrapper;
@@ -229,6 +251,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @WASD => m_Wrapper.m_Movement_WASD;
         public InputAction @Dash => m_Wrapper.m_Movement_Dash;
         public InputAction @Mouse => m_Wrapper.m_Movement_Mouse;
+        public InputAction @Shoot => m_Wrapper.m_Movement_Shoot;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -247,6 +270,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Mouse.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouse;
                 @Mouse.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouse;
                 @Mouse.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouse;
+                @Shoot.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnShoot;
+                @Shoot.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnShoot;
+                @Shoot.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnShoot;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -260,6 +286,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Mouse.started += instance.OnMouse;
                 @Mouse.performed += instance.OnMouse;
                 @Mouse.canceled += instance.OnMouse;
+                @Shoot.started += instance.OnShoot;
+                @Shoot.performed += instance.OnShoot;
+                @Shoot.canceled += instance.OnShoot;
             }
         }
     }
@@ -278,5 +307,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnWASD(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnMouse(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
     }
 }
