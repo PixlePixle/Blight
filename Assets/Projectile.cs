@@ -8,11 +8,18 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     float timeToLive = 3f;
     private float lifeTime = 0f;
+    [SerializeField]
+    int damage = 4;
 
     private void OnTriggerEnter(Collider collision)
     {
         if(collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Player" && !collided)
         {
+            if(collision.gameObject.tag == "Enemy")
+            {
+                collision.gameObject.GetComponent<Health>().Damage(damage);
+            }
+            
             collided = true;
             Object.Destroy(this.gameObject);
         }
