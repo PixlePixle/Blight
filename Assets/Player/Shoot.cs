@@ -13,6 +13,9 @@ public class Shoot : MonoBehaviour
     Transform firePoint;
     [SerializeField]
     float projectileSpeed = 30f;
+    [SerializeField]
+    float shootingDelay = 0.5f;
+    float shootingTime = 0f;
 
     private void OnEnable()
     {
@@ -23,10 +26,15 @@ public class Shoot : MonoBehaviour
 
     private void Fire()
     {
-        Ray ray = new Ray(transform.position, transform.forward);
-        destination = ray.GetPoint(3f);
-        destination.y = firePoint.transform.position.y;
-        InstatiateProjectile();
+        Debug.Log(shootingTime);
+        if(shootingTime <= 0)
+        {
+            Ray ray = new Ray(transform.position, transform.forward);
+            destination = ray.GetPoint(3f);
+            destination.y = firePoint.transform.position.y;
+            InstatiateProjectile();
+            shootingTime = shootingDelay;
+        }
     }
 
     void InstatiateProjectile()
@@ -43,6 +51,9 @@ public class Shoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (shootingTime > 0)
+        {
+            shootingTime -= Time.deltaTime;
+        }
     }
 }
